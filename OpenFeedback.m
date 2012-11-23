@@ -150,7 +150,7 @@ static OpenFeedback* _sharedController = nil;
 	
 	NSString *post = [self getPostData];
 	NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-	NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+	NSString *postLength = [NSString stringWithFormat:@"%ld", (long)[postData length]];
 	
 	NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
 	NSString *submitFeedbackURL = [infoPlist objectForKey:@"OFSubmitFeedbackURL"];

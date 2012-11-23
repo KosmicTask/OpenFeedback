@@ -102,7 +102,7 @@ NSArray *OFSplitVersionString(NSString *version)
 {
     NSString *character;
     NSMutableString *s;
-    int i, n, oldType, newType;
+    NSInteger i, n, oldType, newType;
     NSMutableArray *parts = [NSMutableArray array];
     if ([version length] == 0) {
         // Nothing to do here
