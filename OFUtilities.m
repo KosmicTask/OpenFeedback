@@ -138,7 +138,7 @@ NSComparisonResult OFStandardVersionComparison(NSString *versionA, NSString *ver
     NSArray *partsB = OFSplitVersionString(versionB);
     
     NSString *partA, *partB;
-    int i, n, typeA, typeB, intA, intB;
+    NSInteger i, n, typeA, typeB, intA, intB;
     
     n = MIN([partsA count], [partsB count]);
     for (i = 0; i < n; ++i) {
