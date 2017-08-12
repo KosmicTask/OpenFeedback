@@ -29,6 +29,8 @@
 
 #import "OpenFeedback.h"
 
+static char OFFeedbackSentSuccessfully;
+
 static OpenFeedback* _sharedController = nil;
 
 // class extension
@@ -50,8 +52,7 @@ static OpenFeedback* _sharedController = nil;
 			path = [framework pathForResource:@"OpenFeedback" ofType:@"nib"];
 		}
 		
-		_sharedController = [self alloc];
-		[_sharedController initWithWindowNibPath:path owner:_sharedController];
+		_sharedController = [[self alloc] initWithWindowNibPath:path owner:self];
 	}
 	
 	return _sharedController;
@@ -160,7 +161,7 @@ static OpenFeedback* _sharedController = nil;
 		return;
 	}
 	
-	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:submitFeedbackURL]];
 	[request setHTTPMethod:@"POST"];
 	[request setValue:postLength forHTTPHeaderField:@"Content-Length"];
@@ -235,12 +236,12 @@ static OpenFeedback* _sharedController = nil;
 	
 	[piStatus stopAnimation:self];
 	
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert addButtonWithTitle:@"OK"];
 	[alert setMessageText:@"Feedback Sent"];
 	[alert setInformativeText:@"Your feedback has been sent successfully. Thank you!"];
 	[alert setAlertStyle:NSWarningAlertStyle];
-	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:@"feedbackSentSuccessfully"];
+	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&OFFeedbackSentSuccessfully];
 	
 	// mgs
 	_connection = nil;
@@ -253,7 +254,7 @@ static OpenFeedback* _sharedController = nil;
 	
 	[piStatus stopAnimation:self];
 	
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert addButtonWithTitle:@"OK"];
 	[alert setMessageText:@"Can't Send Feedback"];
 	[alert setInformativeText:@"We were unable to send your feedback. Please check your internet connection and try again."];
@@ -274,7 +275,7 @@ static OpenFeedback* _sharedController = nil;
 	#pragma unused(alert)
 	#pragma unused(returnCode)
 	
-	if([(NSString *)contextInfo isEqualToString:@"feedbackSentSuccessfully"])
+	if(contextInfo == &OFFeedbackSentSuccessfully)
 	{
 		[[self window] orderOut:self];
 	}

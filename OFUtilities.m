@@ -67,7 +67,7 @@ NSString *OFCurrentSystemVersionString()
 		// but that returns /Library/CoreServices for some reason
 		NSString *versionPlistPath = @"/System/Library/CoreServices/SystemVersion.plist";
 		//gets a version string of the form X.Y.Z
-		currentSystemVersion = [[[NSDictionary dictionaryWithContentsOfFile:versionPlistPath] objectForKey:@"ProductVersion"] retain];
+		currentSystemVersion = [[NSDictionary dictionaryWithContentsOfFile:versionPlistPath] objectForKey:@"ProductVersion"];
 	}
 	
 	return currentSystemVersion;
@@ -108,7 +108,7 @@ NSArray *OFSplitVersionString(NSString *version)
         // Nothing to do here
         return parts;
     }
-    s = [[[version substringToIndex:1] mutableCopy] autorelease];
+    s = [[version substringToIndex:1] mutableCopy];
     oldType = OFGetCharType(s);
     n = [version length] - 1;
     for (i = 1; i <= n; ++i) {
@@ -118,7 +118,6 @@ NSArray *OFSplitVersionString(NSString *version)
             // We've reached a new segment
 			NSString *aPart = [[NSString alloc] initWithString:s];
             [parts addObject:aPart];
-			[aPart release];
             [s setString:character];
         } else {
             // Add character to string and continue
